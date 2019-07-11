@@ -1,0 +1,65 @@
+<!DOCTYPE html> 
+<meta charset="utf-8">
+<html>
+
+<body>
+    <form>
+        <p>REGISTRATION FORM:</p>
+        <p>Enter your login:</p>
+        <p><input type="text" size="25" id="loginField" style="height:30px"></p>
+        <p>Enter your password:</p>
+        <p><input type="password" size="25" id="passwordField" style="height:30px"></p>
+        <p><input type="button" value="Registration" id="btnRegistration" onclick="goPage()"></p>
+    </form>
+
+
+
+
+
+</body>
+
+</html>
+
+
+
+<script>
+
+    var tmpLogin = document.getElementById("loginField");
+    var tmpPassword = document.getElementById("passwordField");
+
+    var request = "";
+
+    function goPage() {
+        let login = tmpLogin.value;
+        let password = tmpPassword.value;
+        //http://192.168.0.114:8500/loginVertification?login= - mcpp
+        //http://10.1.1.102:8500/loginVertification?login= - home
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://10.1.1.102:8500/loginVertification?login='+login+'&password='+password, false);
+        xhr.send();
+        if (xhr.status != 200) {
+            alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+        } else {
+
+            request.value = xhr.responseText;
+
+
+
+            alert(xhr.responseText); // responseText -- текст ответа.
+        }
+        if(xhr.responseText == 'Пользователь с таким логином уже существует'){
+
+            alert("Введите другое имя пользователя")
+            window.location.reload();
+
+        }else 
+
+        localStorage.setItem("login",login);
+        localStorage.setItem("password",password);
+       document.location.href = 'http://10.1.1.102:8500//?chat_window.html';
+        
+    }
+
+
+</script>

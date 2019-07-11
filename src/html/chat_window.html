@@ -1,0 +1,86 @@
+<!DOCTYPE html> 
+<meta charset="utf-8">
+<html>
+
+<body>
+
+  <form>
+    <p><b>Ваше имя:</b><br>
+      <p><input type="text" size="25"  id="userName" style="height:30px"></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p><b>Окно чата:</b><br>
+        <p><textarea rows="10" cols="27" id="chatArea"></textarea></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p><input type="text" size="20" id="messageToArea">
+          <input type="button" value="SEND" id="sendMessage" onclick="goChat()">
+          <input type="button" value="Update" id="update" onclick="updateChat()">
+        </p>
+ </form>
+
+</body>
+
+</html>
+
+<script>
+
+   const serverUrl = 'http://10.1.1.102:8500';
+   const serverUrl2 = 'http://10.1.1.102:8500';
+
+  //const serverUrl = 'http://192.168.0.114:8500';
+  //const serverUrl2 = 'http://192.168.0.114:8500';
+
+ // const serverUrl = 'http://localhost:8500';
+ // const serverUrl2 = 'http://localhost:8500';
+
+
+  document.getElementById("userName").value = localStorage.getItem("login");
+  var user = localStorage.getItem("login");
+
+
+
+  var chat = document.getElementById("chatArea");
+  var message = document.getElementById("messageToArea")
+  var tmpPassword = localStorage.getItem("password");
+  var inputChat = name.value;
+
+  setInterval(function () {
+  updateChat();
+  }, 1000);
+
+
+  function goChat() {
+    const nameUsers = user;
+    const messageToServer = message.value;
+    const userPassword = tmpPassword;
+    const params = '/api/post-msg/?name=' + nameUsers + '&message=' + messageToServer+'&password='+userPassword;
+
+    sendRequest(params);
+  }
+
+  function updateChat() {
+    sendRequest('/api/get-hystory');
+
+  }
+
+  function sendRequest(params) {
+    const nameUsers = user;
+    const userPassword = tmpPassword;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', serverUrl + params, false);
+    xhr.send();
+
+    if (xhr.status != 200) {
+      alert(xhr.status + ': ' + xhr.statusText);
+    } else {
+    	//alert(xhr.responseText);
+      chat.value = xhr.responseText + '\n';
+    }
+  }
+
+  
+
+</script>

@@ -1,0 +1,69 @@
+<!DOCTYPE html> 
+<meta charset="utf-8">
+
+<html>
+
+<body>
+
+  <form>
+    <p><b>Enter you login:</b></p>
+    <p><input type="text" size="25" id="enteredLogin" style="height:30px"></p>
+
+    <p><b>Enter you password:</b></p>
+    <p><input type="password" size="25" id="enteredPassword" style="height:30px"></p>
+
+    <p>
+      <input type="button" value="Login" id="btnLogin" onclick="loginVerification()">
+      <input type="button" value="Registration" id="btnRegistration" onclick="registration()">
+    </p>
+  </form>
+
+
+</body>
+
+</html>
+
+<script>
+  var tmpLogin = document.getElementById("enteredLogin");
+  var tmpPassword = document.getElementById("enteredPassword");
+
+
+
+  function loginVerification() {
+    let login = tmpLogin.value;
+    let password = tmpPassword.value;
+    //http://192.168.0.114:8500/loginVertification?login= - mcpp
+    //http://10.1.1.102:8500/loginVertification?login= - home
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://10.1.1.102:8500/loginVertification?login=' + login + '&password=' + password, false);
+    xhr.send();
+    if (xhr.status != 200) {
+      alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+    } else {
+
+       alert(xhr.responseText); // responseText -- текст ответа.
+       
+    }
+    if (xhr.responseText == 'Неверный пароль') {
+
+      alert("Повторите ввод")
+      window.location.reload();
+
+    } else
+
+      localStorage.setItem("login", login);
+    document.location.href = 'http://10.1.1.102:8500/?chat_window.html';
+
+  }
+
+
+  function registration() {
+	  /* var URL = "http://localhost:8500/loginVertification";
+
+	   window.open(URL, null); */
+   document.location.href = 'http://10.1.1.102:8500/?registration_form.html';
+  }
+
+
+</script>
