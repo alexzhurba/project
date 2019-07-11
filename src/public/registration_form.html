@@ -36,7 +36,7 @@
         //http://10.1.1.102:8500/loginVertification?login= - home
 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://10.1.1.102:8500/loginVertification?login='+login+'&password='+password, false);
+        xhr.open('GET', 'http://192.168.0.114:8500/loginVertification?login='+login+'&password='+password, false);
         xhr.send();
         if (xhr.status != 200) {
             alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
@@ -57,7 +57,7 @@
 
         localStorage.setItem("login",login);
         localStorage.setItem("password",password);
-       document.location.href = 'http://10.1.1.102:8500//?chat_window.html';
+      location.href = 'http://192.168.0.114:8500/?chat_window.html';
         
     }
 

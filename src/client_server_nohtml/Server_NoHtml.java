@@ -47,7 +47,6 @@ public class Server_NoHtml {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			HttpUtils.addCors(exchange);
 			//URI requestURI = exchange.getRequestURI();
 			String query = HttpUtils.getQuery(exchange);
 			String[] strQuery = query.split("&message=|name=|&password=");
@@ -57,18 +56,20 @@ public class Server_NoHtml {
 			String checkPassword = strQuery[1] + ":" + strQuery[3];
 			System.out.println(checkPassword);
 			
-			User user = new User(strQuery[1], strQuery[3]);
+			
 			ArrayList<User> usersData = User.usersData;
+			User user = new User(strQuery[1], strQuery[3]);
 			
 			if(usersData.contains(user)) {
 			hystory += newMessage + "\n";
 
 			}else {
+				System.out.println("ELSE");
 				HttpUtils.addCors(exchange);
 				
 				OutputStream os = exchange.getResponseBody();
-				exchange.sendResponseHeaders(401, " Tb| cyka udu B }|{oy||y".getBytes().length);
-				os.write("1".getBytes());
+				exchange.sendResponseHeaders(401, "ЭЭЭ неее".getBytes().length);
+				os.write("ЭЭЭ неее".getBytes());
 				os.close();
 				return;
 			}
@@ -134,19 +135,22 @@ public class Server_NoHtml {
 	        @Override
 	        public void handle(HttpExchange exchange) throws IOException {
 
+	        	String pathToFile = ""
 	        	URI requestURI = exchange.getRequestURI();
-	        	String query = requestURI.getQuery();
-	        	System.out.println(requestURI.getQuery());
+	        	
+	        	//String query = requestURI.getQuery();
+	        	String query = requestURI.toString();
+	        	System.out.println(requestURI);
 	        	
 	        	File file = null;
 	        	
 	        	String str = "";
 	        	
-	        		if(query == null) {
+	        		if(query.equals("/")) {
 	        			file = new File("D:\\workspace\\Connection\\src\\html\\index.html");
-	        		}else if(query.equals("registration_form.html")){
+	        		}else if(query.equals("/registration_form.html")){
 	        			file = new File("D:\\workspace\\Connection\\src\\html\\registration_form.html");
-	        		}else if(query.equals("chat_window.html")){
+	        		}else if(query.equals("/chat_window.html")){
 	        			file = new File("D:\\workspace\\Connection\\src\\html\\chat_window.html");
 	        		}else {
 	        			System.out.println("No go if");
